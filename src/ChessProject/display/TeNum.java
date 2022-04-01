@@ -19,9 +19,9 @@ public class TeNum extends Panel {
         Font font = graphics.getFont();
         FontMetrics metrics = graphics.getFontMetrics(font);
         // Determine the X coordinate for the text
-        int teNum_x = place_x + (20 - metrics.stringWidth(String.valueOf(teNum))) / 2;
+        int teNum_x = place_x + (40 - metrics.stringWidth(String.valueOf(teNum))) / 2;
         // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-        int teNum_y = place_y + ((20 - metrics.getHeight()) / 2) + metrics.getAscent();
+        int teNum_y = place_y + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
         // Set the font
         graphics.setFont(font);
         // Draw the String

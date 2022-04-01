@@ -18,12 +18,12 @@ public class HighLight{
                                           Stone.StoneColor move[][], int teNum, Graphics graphics)
     {
         graphics.setColor(Color.RED);
-        int draw_x = (coordinate_x+1)*25 + 10;
-        int draw_y = (coordinate_y+1)*25 + 10;
+        int draw_x = (coordinate_x+1)*50 + 20;
+        int draw_y = (coordinate_y+1)*50 + 20;
         //
         Graphics2D g = (Graphics2D) graphics;
         g.setStroke(strokeLine);
-        g.drawOval(draw_x,draw_y,20,20);
+        g.drawOval(draw_x,draw_y,40,40);
         // 如果手数大于1，把倒数第二手的红色边框去除
         if(teNum > 1)
         {
@@ -34,17 +34,17 @@ public class HighLight{
     // 直接偷懒，用棋盘底色在原来的那一圈上面再画一圈
     public static void removeLastButOneLight(int last_coordinate_x, int last_coordinate_y, Stone.StoneColor move[][], Graphics g)
     {
-        int draw_x = (last_coordinate_x + 1) * 25 + 10;
-        int draw_y = (last_coordinate_y + 1) * 25 + 10;
+        int draw_x = (last_coordinate_x + 1) * 50 + 20;
+        int draw_y = (last_coordinate_y + 1) * 50 + 20;
         if (move[last_coordinate_x][last_coordinate_y] == Stone.StoneColor.BLACK) {
             g.setColor(Color.BLACK);
         }
         if (move[last_coordinate_x][last_coordinate_y] == Stone.StoneColor.WHITE) {
             g.setColor(Color.WHITE);
         }
-        g.drawOval(draw_x, draw_y, 20, 20);
+        g.drawOval(draw_x, draw_y, 40, 40);
         g.setColor(Color.ORANGE);
-        g.drawOval(draw_x,draw_y,20,20);
+        g.drawOval(draw_x,draw_y,40,40);
     }
 
 }

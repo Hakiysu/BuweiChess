@@ -13,7 +13,7 @@ public class Place extends Panel {
 
     public Place(ChessPad chessPad)
     {
-        setSize(20,20);
+        setSize(40,40);//20x20
         this.chessPad = chessPad;
     }
 
@@ -23,19 +23,19 @@ public class Place extends Panel {
         if(player.getStone().getStoneColor() == Stone.StoneColor.BLACK)
         {
             graphics.setColor(Color.BLACK);
-            graphics.fillOval(x,y,20,20);
+            graphics.fillOval(x,y,40,40);//20x20
         }
         if(player.getStone().getStoneColor() == Stone.StoneColor.WHITE)
         {
             graphics.setColor(Color.WHITE);
-            graphics.fillOval(x,y,20,20);
+            graphics.fillOval(x,y,40,40);//20x20
         }
     }
 
     // 提子
     public static void takeStone(int x,int y,Graphics graphics)
     {
-        graphics.clearRect(x,y,20,20);
+        graphics.clearRect(x,y,40,40);//20x20
     }
 
 }

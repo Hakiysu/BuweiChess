@@ -4,20 +4,20 @@ import ChessProject.stone.Stone;
 
 public class PosAir {
     // 声明记录数组
-    private static int[][] visited = new int[19][19];
+    private static int[][] visited = new int[9][9];
     // 声明上下左右四个方向
     private static int[][] directions = {{0,1},{1,0},{-1,0},{0,-1}};
     // 声明记录提子的坐标的二维数组
-    private static int[][] liberty_takeStones = new int[19][2];
+    private static int[][] liberty_takeStones = new int[9][2];
     // 声明记录二维数组的长度
     private static int liberty_length;
 
     // 记录数组初始化函数
     private static void setUpVisited()
     {
-        for (int i = 0; i < 19; i++)
+        for (int i = 0; i < 9; i++)
         {
-            for (int j = 0; j < 19; j++)
+            for (int j = 0; j < 9; j++)
             {
                 visited[i][j] = 0;
             }
@@ -26,7 +26,7 @@ public class PosAir {
 
     private static void setUpTakeStones()
     {
-        for (int i = 0; i < 19; i++)
+        for (int i = 0; i < 9 ; i++)
         {
             for (int j = 0; j < 2; j++)
             {
