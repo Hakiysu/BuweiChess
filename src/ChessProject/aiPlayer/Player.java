@@ -19,7 +19,9 @@ public class Player {
         return this.stone;
     }
 
-    public void setStone(Stone.StoneColor stoneColor){ this.stone.setStoneColor(stoneColor); }
+    public void setStone(Stone.StoneColor stoneColor){
+        this.stone.setStoneColor(stoneColor);
+    }
 
     public boolean getIsMoving()
     {

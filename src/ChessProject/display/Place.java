@@ -1,7 +1,5 @@
 package ChessProject.display;
 
-
-
 import ChessProject.aiPlayer.Player;
 import ChessProject.stone.Stone;
 

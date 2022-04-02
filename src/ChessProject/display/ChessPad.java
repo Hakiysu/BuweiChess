@@ -3,6 +3,7 @@ package ChessProject.display;
 import ChessProject.display.Place;
 import ChessProject.rule.Take;
 import ChessProject.stone.Stone;
+import ChessProject.display.Status;
 import ChessProject.aiPlayer.Player;
 import ChessProject.rule.StoneAtHere;;
 import ChessProject.rule.PosInBoard;
@@ -15,9 +16,9 @@ import java.io.UnsupportedEncodingException;
 public class ChessPad extends Panel implements MouseListener, ActionListener
 {
 
+        chessStatus cs=new chessStatus();
 
     boolean userStatus;
-
     /**
      * 声明Player类存储棋手下棋顺序
      * 声明落子绘图类用于绘制棋子
@@ -49,6 +50,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
      */
     ChessPad(int n)
     {
+        //0pc first,1user first
+        //
         // 初始化执黑棋手
         BLACK_PLAYER = new Player();
         BLACK_PLAYER.setIsMoving(true);
@@ -79,6 +82,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
         teNum = 1;
         last_coordinate_x = 0;
         last_coordinate_y = 0;
+
         this.add(BLACK_STONE);
         this.add(WHITE_STONE);
         this.add(class_teNum);
@@ -86,6 +90,31 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
         this.setLayout(null);
         this.setBackground(Color.ORANGE);
         this.addMouseListener(this);
+
+    }
+
+    class  chessStatus {
+        String msg;
+        JFrame frame =new JFrame("棋盘状态侦测");
+        JPanel panel=new JPanel();
+        JTextArea status = new JTextArea();
+        JScrollPane jsp=new JScrollPane(status);
+        {
+            frame.setSize(360,512);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            System.out.println("ACTIVE");
+            panel.setLayout(null);
+            status.setLineWrap(true);
+            jsp.setBounds(20,20,300,430);
+            panel.add(jsp);
+            frame.add(panel);
+            frame.setVisible(true);
+        }
+
+        void updateMsg(String msg){
+            status.setText(status.getText()+msg);
+    }
+
     }
 
     /**
@@ -102,18 +131,15 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
         {
             g.drawLine(90, i, roadWidth*8+90, i);
         }
-
     }
 
     /**
      * 按下鼠标，调用落子类绘图方法
      * @param mouseEvent
      */
-    int ccc=0;
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        ccc++;
-        System.out.println(ccc);
+
         if((mouseEvent.getModifiers() == InputEvent.BUTTON1_MASK))
         {
             // 这里减数是棋子的宽度、高度的一半 -- 10
@@ -144,6 +170,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
                         class_teNum.drawTeNum(place_x,place_y,teNum,this.BLACK_PLAYER.getStone().getStoneColor(),this.getGraphics());
                         // 设置有子
                         move[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getStoneColor();
+                        cs.updateMsg("黑子下棋位置："+coordinate_x+","+coordinate_y+"\n");
                     }
 
                     // 白棋
@@ -155,6 +182,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
                         class_teNum.drawTeNum(place_x,place_y,teNum,this.WHITE_PLAYER.getStone().getStoneColor(),this.getGraphics());
                         // 设置有子
                         move[coordinate_x][coordinate_y] = this.WHITE_PLAYER.getStone().getStoneColor();
+                        cs.updateMsg("白子下棋位置："+coordinate_x+","+coordinate_y+"\n");
                     }
 
                     // 手数加1
@@ -166,6 +194,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
                     {
                         takeStones(this.getGraphics());
                         System.out.println("提子");
+                        cs.updateMsg("");
                     }
                     else
                     {
@@ -176,24 +205,28 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
                     highLight.highLightLastStone(coordinate_x,coordinate_y,last_coordinate_x,last_coordinate_y,move,teNum-1,this.getGraphics());
                     last_coordinate_x = coordinate_x;
                     last_coordinate_y = coordinate_y;
+
                     // 两级反转.表明包
                     BLACK_PLAYER.setIsMoving(!(BLACK_PLAYER.getIsMoving()));
                     WHITE_PLAYER.setIsMoving(!(WHITE_PLAYER.getIsMoving()));
                 }
                 else
                 {
-                    System.out.println("已有子");
+                    cs.updateMsg("此处已有子，无法下子！！！\n");
                 }
             }
             else
             {
-                System.out.println("棋盘外");
+                cs.updateMsg("鼠标点击位置处于棋盘外侧，无法下子！！！\n");
             }
+
         }
+
         if((mouseEvent.getModifiers() == InputEvent.BUTTON3_MASK))
         {
-            System.out.println("右键");
+            cs.updateMsg("点击鼠标左键下棋，不是右键！！！\n");
         }
+
     }
 
     @Override
@@ -220,6 +253,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener
     public void actionPerformed(ActionEvent e) {
 
     }
+
     // 提子
     public void takeStones(Graphics graphics)
     {
