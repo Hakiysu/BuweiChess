@@ -1,10 +1,7 @@
-package ChessProject.rule;
+package BuweiChessProject.rule;
 
-import ChessProject.stone.Stone;
-
+import BuweiChessProject.chess.Chess;
 import javax.swing.*;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 
 public class Take {
     // 声明上下左右四个方向
@@ -42,7 +39,7 @@ public class Take {
     }
 
     // 提子函数
-    public static boolean takeStones(Stone.StoneColor move[][],int coordinate_x,int coordinate_y) {
+    public static boolean takeStones(Chess.ChessColor move[][], int coordinate_x, int coordinate_y, int who) {
         // flag为1则有子可提
         int flag = 0;
         // 初始化记录数组
@@ -50,7 +47,7 @@ public class Take {
         setUpTakeStones();
         int direction_x,direction_y;
         // 获得当前局面最后一手棋的颜色
-        Stone.StoneColor color = move[coordinate_x][coordinate_y];
+        Chess.ChessColor color = move[coordinate_x][coordinate_y];
         // 判断该手棋上下左右四个方向的相领棋子
         for(int i=0;i<4;i++)
         {
@@ -63,10 +60,10 @@ public class Take {
             }
             // 如果该方向上的有棋
             // 且棋子颜色与当前局面最后一手棋颜色不同
-            else if(move[direction_x][direction_y] != color && move[direction_x][direction_y] != Stone.StoneColor.NONE)
+            else if(move[direction_x][direction_y] != color && move[direction_x][direction_y] != Chess.ChessColor.NONE)
             {
                 // 如果该棋子所在的块有气，继续下一个循环
-                if(PosAir.hasLiberty(move,direction_x,direction_y))
+                if(ChessAir.hasLiberty(move,direction_x,direction_y))
                 {
                     continue;
                 }
@@ -74,21 +71,12 @@ public class Take {
                 else
                 {
                     flag = 1;
-                    JOptionPane.showMessageDialog(null,"您本次落子后吃掉了对方的棋子，您输了！");
+                    if(who==0)
+                        JOptionPane.showMessageDialog(null,"AI本次落子后吃掉了您的棋子，您赢了！");
+                    else
+                        JOptionPane.showMessageDialog(null,"用户本次落子后吃掉了AI的棋子，您输了！");
                     System.exit(0);
-                    /*
-                    // 记录第i个方向上的提子的数量
-                    take_length[i][0] = PosAir.getLength();
-                    // 记录第i个方向上的提子的坐标
-                    int temp[][] = PosAir.getTakeStones();
-                    for(int j=0;j<9;j++)
-                    {
-                        for(int k=0;k<2;k++)
-                        {
-                            take_takeStones[i][j][k] = temp[j][k];
-                        }
-                    }
-                    */
+
                 }
             }
         }

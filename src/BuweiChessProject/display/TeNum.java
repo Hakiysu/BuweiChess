@@ -1,18 +1,18 @@
-package ChessProject.display;
+package BuweiChessProject.display;
 
-import ChessProject.stone.Stone;
+import BuweiChessProject.chess.Chess;
 
 import java.awt.*;
 
 public class TeNum extends Panel {
 
-    public static void drawTeNum(int place_x, int place_y, int teNum, Stone.StoneColor color, Graphics graphics)
+    public static void drawTeNum(int place_x, int place_y, int teNum, Chess.ChessColor color, Graphics graphics)
     {
-        if(color == Stone.StoneColor.BLACK)
+        if(color == Chess.ChessColor.BLACK)
         {
             graphics.setColor(Color.WHITE);
         }
-        if(color == Stone.StoneColor.WHITE)
+        if(color == Chess.ChessColor.WHITE)
         {
             graphics.setColor(Color.BLACK);
         }

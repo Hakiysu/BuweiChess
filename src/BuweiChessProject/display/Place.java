@@ -1,7 +1,7 @@
-package ChessProject.display;
+package BuweiChessProject.display;
 
-import ChessProject.aiPlayer.Player;
-import ChessProject.stone.Stone;
+import BuweiChessProject.player.Player;
+import BuweiChessProject.chess.Chess;
 
 import java.awt.*;
 
@@ -18,13 +18,14 @@ public class Place extends Panel {
     // 落子
     public static void placeStone(Player player, int x, int y, Graphics graphics)
     {
-        if(player.getStone().getStoneColor() == Stone.StoneColor.BLACK)
-        {
+
+        if(player.getStone().getChessColor() == Chess.ChessColor.BLACK)
+        { System.out.println("PLACE B!");
             graphics.setColor(Color.BLACK);
             graphics.fillOval(x,y,40,40);//20x20
         }
-        if(player.getStone().getStoneColor() == Stone.StoneColor.WHITE)
-        {
+        if(player.getStone().getChessColor() == Chess.ChessColor.WHITE)
+        { System.out.println("PLACE W!");
             graphics.setColor(Color.WHITE);
             graphics.fillOval(x,y,40,40);//20x20
         }

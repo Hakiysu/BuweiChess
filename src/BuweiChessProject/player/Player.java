@@ -1,26 +1,26 @@
-package ChessProject.aiPlayer;
+package BuweiChessProject.player;
 
-import ChessProject.stone.Stone;
+import BuweiChessProject.chess.Chess;
 
 public class Player {
 
-    private Stone stone;
+    private Chess stone;
     private boolean isMoving;
 
     public Player()
     {
-        stone = new Stone();
-        stone.setStoneColor(Stone.StoneColor.NONE);
+        stone = new Chess();
+        stone.setChessColor(Chess.ChessColor.NONE);
         this.isMoving = false;
     }
 
-    public Stone getStone()
+    public Chess getStone()
     {
         return this.stone;
     }
 
-    public void setStone(Stone.StoneColor stoneColor){
-        this.stone.setStoneColor(stoneColor);
+    public void setStone(Chess.ChessColor chessColor){
+        this.stone.setChessColor(chessColor);
     }
 
     public boolean getIsMoving()

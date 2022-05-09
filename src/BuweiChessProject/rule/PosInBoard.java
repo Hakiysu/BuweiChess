@@ -1,4 +1,4 @@
-package ChessProject.rule;
+package BuweiChessProject.rule;
 
 public class PosInBoard {
     public static boolean ifInBoard(int coordinate_x, int coordinate_y)

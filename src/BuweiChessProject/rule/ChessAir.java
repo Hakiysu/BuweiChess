@@ -1,8 +1,8 @@
-package ChessProject.rule;
+package BuweiChessProject.rule;
 
-import ChessProject.stone.Stone;
+import BuweiChessProject.chess.Chess;
 
-public class PosAir {
+public class ChessAir {
     // 声明记录数组
     private static int[][] visited = new int[9][9];
     // 声明上下左右四个方向
@@ -35,7 +35,7 @@ public class PosAir {
         }
     }
 
-    private static boolean DFS(Stone.StoneColor move[][], int coordinate_x, int coordinate_y)
+    private static boolean DFS(Chess.ChessColor move[][], int coordinate_x, int coordinate_y)
     {
         int direction_x,direction_y;
         // 设置已访问标志1
@@ -59,7 +59,7 @@ public class PosAir {
             else if(visited[direction_x][direction_y] == 0)
             {
                 // 如果该位置无子，则有气，返回true
-                if(move[direction_x][direction_y] == Stone.StoneColor.NONE)
+                if(move[direction_x][direction_y] == Chess.ChessColor.NONE)
                 {
                     // 这些输出是在debug的时候用的，可以删掉
                     System.out.println("有气： "+direction_x+" "+direction_y);
@@ -88,7 +88,7 @@ public class PosAir {
     }
 
     // 判断是否有气函数
-    public static boolean hasLiberty(Stone.StoneColor move[][], int coordinate_x, int coordinate_y)
+    public static boolean hasLiberty(Chess.ChessColor move[][], int coordinate_x, int coordinate_y)
     {
         // 初始化遍历记录访问数组
         setUpVisited();
