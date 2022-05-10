@@ -382,6 +382,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             }
         }
     }
+
     public void pcFirstInit()
     {
         System.out.println("Init now,set at 4,4");

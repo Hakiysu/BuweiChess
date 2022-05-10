@@ -20,10 +20,9 @@ public class BackGround extends JFrame {
         chessPad = new ChessPad(n);
 
         frame.add(chessPad);
-
-        frame.setSize(1000,600);
-
-        frame.setVisible(true);chessPad.pcFirstInit();
+        frame.setSize(600,600);//不围棋主程序框-大小
+        frame.setVisible(true);
+        chessPad.pcFirstInit();//if电脑先手，初始化天元位置下黑子
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
