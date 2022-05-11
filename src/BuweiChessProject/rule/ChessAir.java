@@ -8,7 +8,7 @@ public class ChessAir {
     // 声明上下左右四个方向
     private static int[][] directions = {{0,1},{1,0},{-1,0},{0,-1}};
     // 声明记录提子的坐标的二维数组
-    private static int[][] liberty_takeStones = new int[9][2];
+    private static int[][] liberty_takeStones = new int[256][2];
     // 声明记录二维数组的长度
     private static int liberty_length;
 
