@@ -20,12 +20,12 @@ public class Place extends Panel {
     {
 
         if(player.getStone().getChessColor() == Chess.ChessColor.BLACK)
-        { System.out.println("PLACE B!");
+        {
             graphics.setColor(Color.BLACK);
             graphics.fillOval(x,y,40,40);//20x20
         }
         if(player.getStone().getChessColor() == Chess.ChessColor.WHITE)
-        { System.out.println("PLACE W!");
+        {
             graphics.setColor(Color.WHITE);
             graphics.fillOval(x,y,40,40);//20x20
         }

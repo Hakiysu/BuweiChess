@@ -16,7 +16,6 @@ public class BackGround extends JFrame {
         //先手为黑子
         int n= JOptionPane.showOptionDialog(null,"模式选择：","不围棋-游戏模式",
                 JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
-        System.out.println(n+options[n]);
         chessPad = new ChessPad(n);
 
         frame.add(chessPad);

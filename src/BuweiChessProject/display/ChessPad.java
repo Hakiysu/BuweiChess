@@ -128,6 +128,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
      * @param g
      */
     public void paint(Graphics g) {
+
         System.out.println("Painting chess pad");
         for (int i = 90; i <= roadWidth * 8 + 90; i += roadWidth) {
             g.drawLine(i, 90, i, roadWidth * 8 + 90);
@@ -135,6 +136,9 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         for (int i = 90; i <= roadWidth * 8 + 90; i += roadWidth) {
             g.drawLine(90, i, roadWidth * 8 + 90, i);
         }
+        Place.placeStone(this.BLACK_PLAYER, 4, 4, this.getGraphics());
+        class_teNum.drawTeNum(4, 4, 1, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
+        highLight.highLightLastStone(4, 4, 0, 0, chessmap, 0, this.getGraphics());
     }
 
     public int opponent_color(int color) {
@@ -402,7 +406,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 if (this.BLACK_PLAYER.getIsMoving()) {
                     // 设置有子
                     chessmap[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
-                    System.out.println(place_x+"#"+place_y+"#"+coordinate_x+"#"+coordinate_y);
                     cs.updateMsg("AI黑子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                 }
 
@@ -426,6 +429,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 // 落子、绘图
                 Place.placeStone(this.BLACK_PLAYER, place_x, place_y, this.getGraphics());
                 // 绘制手数
+
                 class_teNum.drawTeNum(place_x, place_y, 1, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
                 // 两级反转.表明包
                 BLACK_PLAYER.setIsMoving(!(BLACK_PLAYER.getIsMoving()));
