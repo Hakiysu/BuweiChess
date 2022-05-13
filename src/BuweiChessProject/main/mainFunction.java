@@ -9,12 +9,14 @@ import java.awt.event.ActionListener;
 
 public class mainFunction {
     public static void main(String[] args){
-        JFrame frame = new JFrame("不围棋-MainMenu");
-        ImageIcon img= new ImageIcon("D:/coding/wp.jpg");
+        JFrame frame = new JFrame("不围棋-主菜单");
+        ImageIcon imageIcon = new ImageIcon("./resource/logo.jpg");
+        frame.setIconImage(imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
+        ImageIcon img= new ImageIcon("./resource/back2_blur.png");
         JLabel imgLabel=new JLabel(img);
 
         imgLabel.setSize(1280,720);
-        frame.getLayeredPane().add(imgLabel,new Integer(Integer.MIN_VALUE));
+        frame.getLayeredPane().add(imgLabel, Integer.valueOf(Integer.MIN_VALUE));
         frame.setSize(1280,720);
         frame.setLayout(new GridLayout(16,9));
 
