@@ -29,7 +29,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     Place WHITE_STONE;
     TeNum class_teNum;
     HighLight highLight;
-    Chess.ChessColor move[][];
+    Chess.ChessColor chessmap[][];
     chessStatus cs = new chessStatus();
     Random rdm = new Random();
     int teNum;
@@ -68,12 +68,12 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         BLACK_STONE = new Place(this);
         WHITE_STONE = new Place(this);
         // 初始化棋谱数组、手数数组
-        move = new Chess.ChessColor[road][road];
+        chessmap = new Chess.ChessColor[road][road];
         move_teNum = new int[road][road][1];
         for (int i = 0; i < road; i++)//init empty chesspad,full NONE
         {
             for (int j = 0; j < road; j++) {
-                move[i][j] = Chess.ChessColor.NONE;
+                chessmap[i][j] = Chess.ChessColor.NONE;
                 move_teNum[i][j][0] = -1;
                 value[i][j] = 0;
                 visited_by_air_judge[i][j] = false;
@@ -116,7 +116,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             frame.setVisible(true);
 
         }//init once
-        void updateMsg(String msg) {
+        void updateMsg(String msg)
+        {
             status.setText(status.getText() + msg);
         }
     }
@@ -156,9 +157,9 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             int x_dx = x + dx[dir], y_dy = y + dy[dir];
             if (inBoard_judge(x_dx, y_dy)) //界内
             {
-                if (move[x_dx][y_dy] == Chess.ChessColor.NONE) //旁边这个位置没有棋子
+                if (chessmap[x_dx][y_dy] == Chess.ChessColor.NONE) //旁边这个位置没有棋子
                     flag = true;
-                if (move[x_dx][y_dy] == move[x][y] && !visited_by_air_judge[x_dx][y_dy]) //旁边这个位置是没被搜索过的同色棋
+                if (chessmap[x_dx][y_dy] == chessmap[x][y] && !visited_by_air_judge[x_dx][y_dy]) //旁边这个位置是没被搜索过的同色棋
                     if (air_judge(x_dx, y_dy))
                         flag = true;
             }
@@ -168,10 +169,10 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     //判断能否下颜色为color的棋
     public boolean put_available(int x, int y, int color) {
-        if (move[x][y] != Chess.ChessColor.NONE) //如果这个点本来就有棋子
+        if (chessmap[x][y] != Chess.ChessColor.NONE) //如果这个点本来就有棋子
             return false;
         if (color == 1) {
-            move[x][y] = Chess.ChessColor.BLACK;
+            chessmap[x][y] = Chess.ChessColor.BLACK;
             for (int i = 0; i < road; i++)//reset value array
             {
                 for (int j = 0; j < road; j++) {
@@ -179,7 +180,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 }
             }
         } else {
-            move[x][y] = Chess.ChessColor.WHITE;
+            chessmap[x][y] = Chess.ChessColor.WHITE;
             for (int i = 0; i < road; i++)//reset value array
             {
                 for (int j = 0; j < road; j++) {
@@ -189,7 +190,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         }
         if (!air_judge(x, y)) //如果下完这步这个点没气了,说明是自杀步，不能下
         {
-            move[x][y] = Chess.ChessColor.NONE;
+            chessmap[x][y] = Chess.ChessColor.NONE;
             return false;
         }
         for (int i = 0; i < 4; i++) //判断下完这步周围位置的棋子是否有气
@@ -198,18 +199,18 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             if (inBoard_judge(x_dx, y_dy)) //在棋盘内
             {
                 //对于有棋子的位置（标记访问过避免死循环）
-                if (move[x_dx][y_dy] != Chess.ChessColor.NONE) {
+                if (chessmap[x_dx][y_dy] != Chess.ChessColor.NONE) {
                     if (!visited_by_air_judge[x_dx][y_dy]) {
                         if (!air_judge(x_dx, y_dy))//如果导致(x_dx,y_dy)没气了，则不能下
                         {
-                            move[x][y] = Chess.ChessColor.NONE; //回溯
+                            chessmap[x][y] = Chess.ChessColor.NONE; //回溯
                             return false;
                         }
                     }
                 }
             }
         }
-        move[x][y] = Chess.ChessColor.NONE; //回溯
+        chessmap[x][y] = Chess.ChessColor.NONE; //回溯
         return true;
     }
 
@@ -251,18 +252,18 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 for (int j = 0; j < 9; j++) {
                     if (put_available(i, j, color)) {
                         if (color == 1) {
-                            move[i][j] = Chess.ChessColor.BLACK;
+                            chessmap[i][j] = Chess.ChessColor.BLACK;
                             value[i][j] = evaluate(color);
                             if (value[i][j] > max_value)
                                 max_value = value[i][j];
-                            move[i][j] = Chess.ChessColor.NONE;
+                            chessmap[i][j] = Chess.ChessColor.NONE;
                         }
                         else {
-                            move[i][j] = Chess.ChessColor.WHITE;
+                            chessmap[i][j] = Chess.ChessColor.WHITE;
                             value[i][j] = evaluate(color);
                             if (value[i][j] > max_value)
                                 max_value = value[i][j];
-                            move[i][j] = Chess.ChessColor.NONE;
+                            chessmap[i][j] = Chess.ChessColor.NONE;
                         }
                     }
                     else
@@ -284,8 +285,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             // 得到的是落子类绘图方法需要的坐标
             int place_x = (coordinate_x + 1) * roadWidth + chessR;
             int place_y = (coordinate_y + 1) * roadWidth + chessR;
-            // 判断是否在棋盘内
-            if (!PositionHaveChess.ifAlreadyHadStone(move, coordinate_x, coordinate_y)) {
+            // 判断点击位置是否在棋盘内
+            if (!PositionHaveChess.ifAlreadyHadStone(chessmap, coordinate_x, coordinate_y)) {
                 // 黑棋
                 if (this.BLACK_PLAYER.getIsMoving()) {
                     // 落子、绘图
@@ -293,7 +294,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                     // 绘制手数
                     class_teNum.drawTeNum(place_x, place_y, teNum, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
                     // 设置有子
-                    move[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
+                    chessmap[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
                     cs.updateMsg("AI黑子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                 }
 
@@ -304,7 +305,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                     // 绘制手数
                     class_teNum.drawTeNum(place_x, place_y, teNum, this.WHITE_PLAYER.getStone().getChessColor(), this.getGraphics());
                     // 设置有子
-                    move[coordinate_x][coordinate_y] = this.WHITE_PLAYER.getStone().getChessColor();
+                    chessmap[coordinate_x][coordinate_y] = this.WHITE_PLAYER.getStone().getChessColor();
                     cs.updateMsg("AI白子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                 }
 
@@ -313,7 +314,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 teNum++;
 
                 // 如果可以提子
-                if (Take.takeStones(move, coordinate_x, coordinate_y,0)) {
+                if (Take.takeStones(chessmap, coordinate_x, coordinate_y,0)) {
                     takeStones(this.getGraphics());
                     System.out.println("AI提子");
                     cs.updateMsg("");
@@ -322,7 +323,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 }
 
                 // 高亮最后一手，并将倒数第二手的高亮去除
-                highLight.highLightLastStone(coordinate_x, coordinate_y, last_coordinate_x, last_coordinate_y, move, teNum - 1, this.getGraphics());
+                highLight.highLightLastStone(coordinate_x, coordinate_y, last_coordinate_x, last_coordinate_y, chessmap, teNum - 1, this.getGraphics());
                 last_coordinate_x = coordinate_x;
                 last_coordinate_y = coordinate_y;
 
@@ -356,7 +357,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                     remove_x = (coordinate_x + 1) * roadWidth + chessR;
                     remove_y = (coordinate_y + 1) * roadWidth + chessR;
                     // 去除棋谱上该子
-                    move[coordinate_x][coordinate_y] = Chess.ChessColor.NONE;
+                    chessmap[coordinate_x][coordinate_y] = Chess.ChessColor.NONE;
                     // 提子
                     Place.takeStone(remove_x, remove_y, graphics);
                 }
@@ -368,16 +369,16 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         // 重绘仍在棋盘上的棋子
         for (int i = 0; i < road; i++) {
             for (int j = 0; j < road; j++) {
-                if (move[i][j] == Chess.ChessColor.BLACK) {
+                if (chessmap[i][j] == Chess.ChessColor.BLACK) {
                     Place.placeStone(this.BLACK_PLAYER, ((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), this.getGraphics());
-                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], move[i][j], this.getGraphics());
+                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], chessmap[i][j], this.getGraphics());
                 }
-                if (move[i][j] == Chess.ChessColor.WHITE) {
+                if (chessmap[i][j] == Chess.ChessColor.WHITE) {
                     Place.placeStone(this.WHITE_PLAYER, ((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), this.getGraphics());
-                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], move[i][j], this.getGraphics());
+                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], chessmap[i][j], this.getGraphics());
                 }
                 if (move_teNum[i][j][0] == teNum) {
-                    highLight.highLightLastStone(i, j, 0, 0, move, 0, this.getGraphics());
+                    highLight.highLightLastStone(i, j, 0, 0, chessmap, 0, this.getGraphics());
                 }
             }
         }
@@ -396,11 +397,11 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             int place_x = (coordinate_x + 1) * roadWidth + chessR;
             int place_y = (coordinate_y + 1) * roadWidth + chessR;
             // 判断是否在棋盘内
-            if (!PositionHaveChess.ifAlreadyHadStone(move, coordinate_x, coordinate_y)) {
+            if (!PositionHaveChess.ifAlreadyHadStone(chessmap, coordinate_x, coordinate_y)) {
                 // 黑棋
                 if (this.BLACK_PLAYER.getIsMoving()) {
                     // 设置有子
-                    move[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
+                    chessmap[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
                     System.out.println(place_x+"#"+place_y+"#"+coordinate_x+"#"+coordinate_y);
                     cs.updateMsg("AI黑子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                 }
@@ -410,7 +411,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 teNum++;
 
                 // 如果可以提子
-                if (Take.takeStones(move, 4, 4,0)) {
+                if (Take.takeStones(chessmap, 4, 4,0)) {
                     takeStones(this.getGraphics());
                     System.out.println("AI提子");
                     cs.updateMsg("");
@@ -419,7 +420,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 }
 
                 // 高亮最后一手，并将倒数第二手的高亮去除
-                highLight.highLightLastStone(coordinate_x, coordinate_y, 0, 0, move, 0, this.getGraphics());
+                highLight.highLightLastStone(coordinate_x, coordinate_y, 0, 0, chessmap, 0, this.getGraphics());
                 last_coordinate_x = coordinate_x;
                 last_coordinate_y = coordinate_y;
                 // 落子、绘图
@@ -459,7 +460,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 int place_y = (coordinate_y + 1) * roadWidth + chessR;
                 // 判断是否在棋盘内
                 if (PosInBoard.ifInBoard(coordinate_x, coordinate_y)) {
-                    if (!PositionHaveChess.ifAlreadyHadStone(move, coordinate_x, coordinate_y)) {
+                    if (!PositionHaveChess.ifAlreadyHadStone(chessmap, coordinate_x, coordinate_y)) {
                         //能进这里，则已经可以成功下子
                         // 黑棋
                         if (this.BLACK_PLAYER.getIsMoving()) {
@@ -468,7 +469,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                             // 绘制手数
                             class_teNum.drawTeNum(place_x, place_y, teNum, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
                             // 设置有子
-                            move[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
+                            chessmap[coordinate_x][coordinate_y] = this.BLACK_PLAYER.getStone().getChessColor();
                             cs.updateMsg("USER黑子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                         }
                         // 白棋
@@ -478,14 +479,14 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                             // 绘制手数
                             class_teNum.drawTeNum(place_x, place_y, teNum, this.WHITE_PLAYER.getStone().getChessColor(), this.getGraphics());
                             // 设置有子
-                            move[coordinate_x][coordinate_y] = this.WHITE_PLAYER.getStone().getChessColor();
+                            chessmap[coordinate_x][coordinate_y] = this.WHITE_PLAYER.getStone().getChessColor();
                             cs.updateMsg("USER白子下棋位置：" + coordinate_x + "," + coordinate_y + "\n");
                         }
                         // 手数加1
                         move_teNum[coordinate_x][coordinate_y][0] = teNum;
                         teNum++;
                         // 如果可以提子
-                        if (Take.takeStones(move, coordinate_x, coordinate_y,1)) {
+                        if (Take.takeStones(chessmap, coordinate_x, coordinate_y,1)) {
                             takeStones(this.getGraphics());
                             System.out.println("USER提子");
                             cs.updateMsg("");
@@ -494,7 +495,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                             System.out.println("USER落子");
                         }
                         // 高亮最后一手，并将倒数第二手的高亮去除
-                        highLight.highLightLastStone(coordinate_x, coordinate_y, last_coordinate_x, last_coordinate_y, move, teNum - 1, this.getGraphics());
+                        highLight.highLightLastStone(coordinate_x, coordinate_y, last_coordinate_x, last_coordinate_y, chessmap, teNum - 1, this.getGraphics());
                         last_coordinate_x = coordinate_x;
                         last_coordinate_y = coordinate_y;
                         // 两级反转.表明包
