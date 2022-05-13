@@ -8,8 +8,7 @@ public class BackGround extends JFrame {
 
     ChessPad chessPad;
 
-    public BackGround()
-    {
+    public BackGround() {
         JFrame frame=new JFrame("不围棋");
 
         String [] options = {"电脑先手","电脑后手"};
@@ -17,9 +16,9 @@ public class BackGround extends JFrame {
         int n= JOptionPane.showOptionDialog(null,"模式选择：","不围棋-游戏模式",
                 JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
         chessPad = new ChessPad(n);
-
         frame.add(chessPad);
-        frame.setSize(600,600);//不围棋主程序框-大小
+        //frame.setSize(600,600);//不围棋主程序框-大小
+        frame.setBounds(700,300,600,600);
         frame.setVisible(true);
         chessPad.pcFirstInit();//if电脑先手，初始化天元位置下黑子
         frame.addWindowListener(new WindowAdapter() {
