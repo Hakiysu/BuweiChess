@@ -136,9 +136,14 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         for (int i = 90; i <= roadWidth * 8 + 90; i += roadWidth) {
             g.drawLine(90, i, roadWidth * 8 + 90, i);
         }
-        Place.placeStone(this.BLACK_PLAYER, 4, 4, this.getGraphics());
-        class_teNum.drawTeNum(4, 4, 1, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
-        highLight.highLightLastStone(4, 4, 0, 0, chessmap, 0, this.getGraphics());
+        int place_x = (4 + 1) * roadWidth + chessR;
+        int place_y = (4 + 1) * roadWidth + chessR;
+        if(whoFirst==0)//fix chess missing bug,not final version
+        {
+            Place.placeStone(this.BLACK_PLAYER, place_x, place_y, this.getGraphics());
+            class_teNum.drawTeNum(place_x, place_y, 1, this.BLACK_PLAYER.getStone().getChessColor(), this.getGraphics());
+            highLight.highLightLastStone(4, 4, 0, 0, chessmap, 0, this.getGraphics());
+        }
     }
 
     public int opponent_color(int color) {
