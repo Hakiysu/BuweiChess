@@ -39,7 +39,7 @@ public class Take {
     }
 
     // 提子函数
-    public static boolean takeStones(Chess.ChessColor move[][], int coordinate_x, int coordinate_y, int who) {
+    public static boolean takeStones(Chess.ChessColor[][] move, int coordinate_x, int coordinate_y, int who) {
         // flag为1则有子可提
         int flag = 0;
         // 初始化记录数组
@@ -178,14 +178,7 @@ public class Take {
             }
         }
         // flag不为0，可提子，返回true
-        if(flag!=0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return flag != 0;
     }
 
     public static int[][][] getTakeStones()

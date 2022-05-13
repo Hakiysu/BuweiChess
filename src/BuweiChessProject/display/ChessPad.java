@@ -29,18 +29,18 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     Place WHITE_STONE;
     TeNum class_teNum;
     HighLight highLight;
-    Chess.ChessColor chessmap[][];
+    Chess.ChessColor[][] chessmap;
     chessStatus cs = new chessStatus();
     Random rdm = new Random();
     int teNum;
-    int move_teNum[][][];
+    int[][][] move_teNum;
     int last_coordinate_x, last_coordinate_y;
     int whoFirst;
     int whoPlay;
-    int value[][] = new int[9][9];//坐标权值
-    int dx[] = {-1, 0, 1, 0};//行位移
-    int dy[] = {0, -1, 0, 1};//列位移
-    boolean visited_by_air_judge[][] = new boolean[9][9];
+    int[][] value = new int[9][9];//坐标权值
+    int[] dx = {-1, 0, 1, 0};//行位移
+    int[] dy = {0, -1, 0, 1};//列位移
+    boolean[][] visited_by_air_judge = new boolean[9][9];
 
     int chessR = 20;
     int roadWidth = 50;//Normal:25
@@ -239,8 +239,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     }
 
     public void greedyClicked() {
-        int coordinate_x = 0;
-        int coordinate_y = 0;
+        int coordinate_x;
+        int coordinate_y;
         int color;
         if (whoFirst == 0)
             color = 1;
@@ -248,8 +248,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             color = -1;
         if (whoPlay == 0) {
             int max_value = Integer.MIN_VALUE;
-            int best_i[] = new int[81];
-            int best_j[] = new int[81];
+            int[] best_i = new int[81];
+            int[] best_j = new int[81];
             int best_num = 0;
             for (int i = 0; i < road; i++)//reset value array
             {
@@ -352,9 +352,9 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     public void takeStones(Graphics graphics) {
         int coordinate_x, coordinate_y, remove_x, remove_y;
         // 获得提子数量
-        int length[][] = Take.getLength();
+        int[][] length = Take.getLength();
         // 获得提子坐标
-        int takeStones[][][] = Take.getTakeStones();
+        int[][][] takeStones = Take.getTakeStones();
         for (int i = 0; i < 4; i++) {
             // 如果记录的数量不为0，有子可提
             if (length[i][0] != 0) {

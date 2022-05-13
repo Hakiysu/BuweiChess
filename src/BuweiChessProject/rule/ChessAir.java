@@ -35,7 +35,7 @@ public class ChessAir {
         }
     }
 
-    private static boolean DFS(Chess.ChessColor move[][], int coordinate_x, int coordinate_y)
+    private static boolean DFS(Chess.ChessColor[][] move, int coordinate_x, int coordinate_y)
     {
         int direction_x,direction_y;
         // 设置已访问标志1
@@ -88,7 +88,7 @@ public class ChessAir {
     }
 
     // 判断是否有气函数
-    public static boolean hasLiberty(Chess.ChessColor move[][], int coordinate_x, int coordinate_y)
+    public static boolean hasLiberty(Chess.ChessColor[][] move, int coordinate_x, int coordinate_y)
     {
         // 初始化遍历记录访问数组
         setUpVisited();

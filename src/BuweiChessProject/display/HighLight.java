@@ -9,7 +9,7 @@ public class HighLight{
     // 给最后一手棋子加一圈红色边框
     public static void highLightLastStone(int coordinate_x, int coordinate_y,
                                           int last_coordinate_x, int last_coordinate_y,
-                                          Chess.ChessColor move[][], int teNum, Graphics graphics)
+                                          Chess.ChessColor[][] move, int teNum, Graphics graphics)
     {
         graphics.setColor(Color.RED);
         int draw_x = (coordinate_x+1)*50 + 20;
@@ -26,7 +26,7 @@ public class HighLight{
     }
 
     // 直接偷懒，用棋盘底色在原来的那一圈上面再画一圈
-    public static void removeLastButOneLight(int last_coordinate_x, int last_coordinate_y, Chess.ChessColor move[][], Graphics g)
+    public static void removeLastButOneLight(int last_coordinate_x, int last_coordinate_y, Chess.ChessColor[][] move, Graphics g)
     {
         int draw_x = (last_coordinate_x + 1) * 50 + 20;
         int draw_y = (last_coordinate_y + 1) * 50 + 20;
