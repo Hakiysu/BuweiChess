@@ -1,6 +1,7 @@
 package BuweiChessProject.rule;
 
 import BuweiChessProject.chess.Chess;
+
 import javax.swing.*;
 
 public class Take {
@@ -24,18 +25,11 @@ public class Take {
     }
 
     // 初始化takeStones
-    private static void setUpTakeStones()
-    {
+    private static void setUpTakeStones() {
         for (int i = 0; i < 4; i++)
-        {
             for (int j = 0; j < 9; j++)
-            {
                 for (int k = 0; k < 2; k++)
-                {
                     take_takeStones[i][j][k] = 0;
-                }
-            }
-        }
     }
 
     // 提子函数
@@ -133,6 +127,7 @@ public class Take {
         }
         if(noAirValue==0)flag=1;
         System.out.println("NAV check done,nva="+noAirValue);
+
         if(flag==1)
         {
             if(who==0)
