@@ -15,7 +15,7 @@ public class BackGround extends JFrame {
         //先手为黑子
         int n= JOptionPane.showOptionDialog(null,"模式选择：","不围棋-游戏模式",
                 JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
-        chessPad = new ChessPad(n);
+        chessPad = new ChessPad(n,frame);
         frame.add(chessPad);
         frame.setSize(600,600);//不围棋主程序框-大小
         frame.setLocationRelativeTo(null);// 设置窗口默认中间
