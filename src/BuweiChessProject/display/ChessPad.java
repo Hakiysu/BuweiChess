@@ -244,7 +244,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         return right;
     }
 
-    public void greedyClicked() {
+    public void greedyClicked()throws NullPointerException {
         System.out.println("END"+endGame);
         if(endGame==1)frme.dispose();
         int coordinate_x;
@@ -463,7 +463,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
      */
 
     @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
+    public void mouseClicked(MouseEvent mouseEvent) throws NullPointerException {
         System.out.println("END"+endGame);
         if(endGame==1)frme.dispose();
         if(whoPlay==1)
@@ -511,7 +511,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                         // 如果可以提子
                         if (Take.takeStones(chessmap, coordinate_x, coordinate_y,1,frme)) {
                             cs.shutdownSeeker();
-                            //takeStones(this.getGraphics());
                             System.out.println("USER提子");
                             cs.updateMsg("");
                             frme.dispose();

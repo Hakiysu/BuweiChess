@@ -9,7 +9,7 @@ public class HighLight{
     // 给最后一手棋子加一圈红色边框
     public static void highLightLastStone(int coordinate_x, int coordinate_y,
                                           int last_coordinate_x, int last_coordinate_y,
-                                          Chess.ChessColor[][] move, int teNum, Graphics graphics)
+                                          Chess.ChessColor[][] move, int teNum, Graphics graphics)throws NullPointerException
     {
         graphics.setColor(Color.RED);
         int draw_x = (coordinate_x+1)*50 + 20;
