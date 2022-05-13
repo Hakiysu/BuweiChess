@@ -39,7 +39,7 @@ public class Take {
     }
 
     // 提子函数
-    public static boolean takeStones(Chess.ChessColor[][] move, int coordinate_x, int coordinate_y, int who) {
+    public static boolean takeStones(Chess.ChessColor[][] move, int coordinate_x, int coordinate_y, int who,JFrame fme) {
         // flag为1则有子可提
         int flag = 0;
         // 初始化记录数组
@@ -171,7 +171,6 @@ public class Take {
                             JOptionPane.showMessageDialog(null,"AI本次落子后吃掉了您的棋子，您赢了！");
                         else
                             JOptionPane.showMessageDialog(null,"用户本次落子后吃掉了AI的棋子，您输了！");
-                        System.exit(0);
 
                     }
                 }

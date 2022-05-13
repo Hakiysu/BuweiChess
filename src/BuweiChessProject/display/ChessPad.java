@@ -45,13 +45,16 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     int chessR = 20;
     int roadWidth = 50;//Normal:25
     int road = 9;
+    int endGame=0;
     boolean flagRun = true;
+    JFrame frme;
 
     /**
      * 构造棋盘大小、背景、鼠标监听器
      */
-    ChessPad(int n) {
-
+    ChessPad(int n,JFrame frm) {
+        frme=frm;
+        if(n==-1)System.exit(0);
         // 初始化执黑棋手
         BLACK_PLAYER = new Player();
         BLACK_PLAYER.setIsMoving(true);
@@ -119,6 +122,9 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         void updateMsg(String msg)
         {
             status.setText(status.getText() + msg);
+        }
+        void shutdownSeeker(){
+            frame.dispose();
         }
     }
 
@@ -239,6 +245,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     }
 
     public void greedyClicked() {
+        System.out.println("END"+endGame);
+        if(endGame==1)frme.dispose();
         int coordinate_x;
         int coordinate_y;
         int color;
@@ -323,10 +331,12 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 teNum++;
 
                 // 如果可以提子
-                if (Take.takeStones(chessmap, coordinate_x, coordinate_y,0)) {
-                    takeStones(this.getGraphics());
+                if (Take.takeStones(chessmap, coordinate_x, coordinate_y,0,frme)) {
+                    //takeStones(this.getGraphics());
                     System.out.println("AI提子");
                     cs.updateMsg("");
+                    cs.shutdownSeeker();
+                    frme.dispose();
                 } else {
                     System.out.println("AI落子");
                 }
@@ -347,7 +357,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             }
         }
     }
-
+/*
     // 提子
     public void takeStones(Graphics graphics) {
         int coordinate_x, coordinate_y, remove_x, remove_y;
@@ -392,7 +402,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             }
         }
     }
-
+*/
     public void pcFirstInit()
     {
         System.out.println("Init now,set at 4,4");
@@ -419,10 +429,12 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 teNum++;
 
                 // 如果可以提子
-                if (Take.takeStones(chessmap, 4, 4,0)) {
-                    takeStones(this.getGraphics());
+                if (Take.takeStones(chessmap, 4, 4,0,frme)) {
+                    //takeStones(this.getGraphics());
                     System.out.println("AI提子");
                     cs.updateMsg("");
+                    cs.shutdownSeeker();
+                    frme.dispose();
                 } else {
                     System.out.println("AI落子");
                 }
@@ -452,6 +464,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println("END"+endGame);
+        if(endGame==1)frme.dispose();
         if(whoPlay==1)
         {
             if ((mouseEvent.getModifiers() == InputEvent.BUTTON1_MASK)) {
@@ -495,10 +509,12 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                         move_teNum[coordinate_x][coordinate_y][0] = teNum;
                         teNum++;
                         // 如果可以提子
-                        if (Take.takeStones(chessmap, coordinate_x, coordinate_y,1)) {
-                            takeStones(this.getGraphics());
+                        if (Take.takeStones(chessmap, coordinate_x, coordinate_y,1,frme)) {
+                            cs.shutdownSeeker();
+                            //takeStones(this.getGraphics());
                             System.out.println("USER提子");
                             cs.updateMsg("");
+                            frme.dispose();
                         }
                         else {
                             System.out.println("USER落子");
@@ -543,7 +559,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        System.out.println("END"+endGame);
+        if(endGame==1)frme.dispose();
     }
 
     @Override
