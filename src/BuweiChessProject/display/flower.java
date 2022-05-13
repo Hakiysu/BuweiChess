@@ -13,9 +13,12 @@ public class flower extends Frame{
     int count=8;//烟花个数 8
     public flower() {
 
+        setSize(500,500);
+        setLocationRelativeTo(null);// 设置窗口默认中间
+        setAlwaysOnTop(true);
+        setResizable(false);
         setLayout(new FlowLayout());
         setTitle("烟花特效");
-        setSize(500, 500);
         setVisible(true);
 
     }
@@ -90,18 +93,8 @@ public class flower extends Frame{
             count--;//烟花减1
             if(count<=0)break;//放完退出循环
         }
-        System.exit(0); //退出窗体
+        dispose();
     }
-
-
-
-
-    class WinAdapter extends WindowAdapter {
-        public void windowClosing(WindowEvent we) {
-            System.exit(0);
-        }
-    }
-
     public static void func()  {
         flower f = new flower();
     }

@@ -45,7 +45,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     int chessR = 20;
     int roadWidth = 50;//Normal:25
     int road = 9;
-    int endGame=0;
     boolean flagRun = true;
     JFrame frme;
 
@@ -245,8 +244,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     }
 
     public void greedyClicked()throws NullPointerException {
-        System.out.println("END"+endGame);
-        if(endGame==1)frme.dispose();
         int coordinate_x;
         int coordinate_y;
         int color;
@@ -298,7 +295,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             coordinate_x = best_i[randomNum];
             coordinate_y = best_j[randomNum];
             //get click position & use virtual clicked
-
             // 得到的是落子类绘图方法需要的坐标
             int place_x = (coordinate_x + 1) * roadWidth + chessR;
             int place_y = (coordinate_y + 1) * roadWidth + chessR;
@@ -332,11 +328,11 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
                 // 如果可以提子
                 if (Take.takeStones(chessmap, coordinate_x, coordinate_y,0,frme)) {
-                    //takeStones(this.getGraphics());
                     System.out.println("AI提子");
                     cs.updateMsg("");
                     cs.shutdownSeeker();
                     frme.dispose();
+                    flower.func();
                 } else {
                     System.out.println("AI落子");
                 }
@@ -357,52 +353,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             }
         }
     }
-/*
-    // 提子
-    public void takeStones(Graphics graphics) {
-        int coordinate_x, coordinate_y, remove_x, remove_y;
-        // 获得提子数量
-        int[][] length = Take.getLength();
-        // 获得提子坐标
-        int[][][] takeStones = Take.getTakeStones();
-        for (int i = 0; i < 4; i++) {
-            // 如果记录的数量不为0，有子可提
-            if (length[i][0] != 0) {
-                for (int j = 0; j < length[i][0]; j++) {
-                    // 获得要提的子的坐标
-                    coordinate_x = takeStones[i][j][0];
-                    coordinate_y = takeStones[i][j][1];
-                    // 将坐标转换为绘图坐标
-                    remove_x = (coordinate_x + 1) * roadWidth + chessR;
-                    remove_y = (coordinate_y + 1) * roadWidth + chessR;
-                    // 去除棋谱上该子
-                    chessmap[coordinate_x][coordinate_y] = Chess.ChessColor.NONE;
-                    // 提子
-                    Place.takeStone(remove_x, remove_y, graphics);
-                }
-            }
-        }
-        // 重绘
-        removeAll();
-        paint(graphics);
-        // 重绘仍在棋盘上的棋子
-        for (int i = 0; i < road; i++) {
-            for (int j = 0; j < road; j++) {
-                if (chessmap[i][j] == Chess.ChessColor.BLACK) {
-                    Place.placeStone(this.BLACK_PLAYER, ((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), this.getGraphics());
-                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], chessmap[i][j], this.getGraphics());
-                }
-                if (chessmap[i][j] == Chess.ChessColor.WHITE) {
-                    Place.placeStone(this.WHITE_PLAYER, ((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), this.getGraphics());
-                    class_teNum.drawTeNum(((i + 1) * roadWidth + chessR), ((j + 1) * roadWidth + chessR), move_teNum[i][j][0], chessmap[i][j], this.getGraphics());
-                }
-                if (move_teNum[i][j][0] == teNum) {
-                    highLight.highLightLastStone(i, j, 0, 0, chessmap, 0, this.getGraphics());
-                }
-            }
-        }
-    }
-*/
     public void pcFirstInit()
     {
         System.out.println("Init now,set at 4,4");
@@ -464,8 +414,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) throws NullPointerException {
-        System.out.println("END"+endGame);
-        if(endGame==1)frme.dispose();
         if(whoPlay==1)
         {
             if ((mouseEvent.getModifiers() == InputEvent.BUTTON1_MASK)) {
@@ -558,8 +506,6 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println("END"+endGame);
-        if(endGame==1)frme.dispose();
     }
 
     @Override
