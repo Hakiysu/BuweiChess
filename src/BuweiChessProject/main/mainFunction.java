@@ -15,9 +15,9 @@ public class mainFunction {
         ImageIcon img= new ImageIcon("./resource/back2_blur.png");
         JLabel imgLabel=new JLabel(img);
 
-        imgLabel.setSize(1280,720);
+        imgLabel.setSize(1200,770);
         frame.getLayeredPane().add(imgLabel, Integer.valueOf(Integer.MIN_VALUE));
-        frame.setSize(1280,720);
+        frame.setSize(1200,770);
         frame.setLayout(new GridLayout(16,9));
 
         //2.把窗口面板设为内容面板并设为透明、流动布局。
