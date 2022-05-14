@@ -18,7 +18,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
      * 声明落子绘图类用于绘制棋子
      * 声明teNum类用于绘制手数
      * 声明highLight高亮最后一手
-     * 声明9*9 move数组，存储已落子的信息，road=路宽度，9
+     * 声明9*9 chessmap数组，存储已落子的信息，road=路宽度，9
      * 声明teNum记录手数
      * 声明move_teNum 记录每一个坐标的棋子是第几手棋
      * 声明上一手的坐标last_coordinate_x，last_coordinate_y
