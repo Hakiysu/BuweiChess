@@ -43,9 +43,7 @@ public class Take {
         // 获得当前局面最后一手棋的颜色
         Chess.ChessColor color = move[coordinate_x][coordinate_y];
 
-
         //对弈禁止自杀，落子自杀一方判负
-        //搁着玩自杀？？？
         System.out.println("NAV check start");
         int noAirValue=4;
         //center area,1.1~7.7

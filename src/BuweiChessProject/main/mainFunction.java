@@ -43,7 +43,9 @@ public class mainFunction extends JFrame{
         TitleText.setBounds(220,150,1000,80);
 
         JLabel bodyText=new JLabel();
-        bodyText.setText("<html><h1 style=\"color:yellow;text-align:center\">团队成员：胡泽坤，李荣峥<br>孙峥，刘文荟，孔金燕，陈子健<br><br>版本号：<b>V1.5.1</b></h1></html>");
+        bodyText.setText("<html><h1 style=\"color:yellow;text-align:center\">" +
+                "团队成员：胡泽坤，李荣峥<br>孙峥，刘文荟，孔金燕，陈子健<br><br>版本号：" +
+                "<b>V1.5.1</b></h1></html>");
         Font bodyFont=new Font("霞鹜文楷",Font.PLAIN,25);
         bodyText.setFont(bodyFont);
         bodyText.setBounds(430,300,500,200);
