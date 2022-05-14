@@ -151,7 +151,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         }
     }
 
-    public int opponent_color(int color) {
+    public int opponent_color(int color) {//返回反的棋子颜色
         if (color == 1)
             return -1;
         else
@@ -163,7 +163,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         return 0 <= x && x < 9 && 0 <= y && y < 9;
     }
 
-    //判断是否有气
+    //判断下完此点(x,y)后是否有气
     public boolean air_judge(int x, int y) {
         visited_by_air_judge[x][y] = true; //标记，表示这个位置已经搜过有无气了
         boolean flag = false;
@@ -182,6 +182,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
     }
 
     //判断能否下颜色为color的棋
+    //color:0 white/1 black
     public boolean put_available(int x, int y, int color) {
         if (chessmap[x][y] != Chess.ChessColor.NONE) //如果这个点本来就有棋子
             return false;
@@ -193,7 +194,8 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                     value[i][j] = 0;
                 }
             }
-        } else {
+        }
+        else {
             chessmap[x][y] = Chess.ChessColor.WHITE;
             for (int i = 0; i < road; i++)//reset value array
             {
@@ -202,11 +204,13 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 }
             }
         }
+
         if (!air_judge(x, y)) //如果下完这步这个点没气了,说明是自杀步，不能下
         {
             chessmap[x][y] = Chess.ChessColor.NONE;
             return false;
         }
+
         for (int i = 0; i < 4; i++) //判断下完这步周围位置的棋子是否有气
         {
             int x_dx = x + dx[i], y_dy = y + dy[i];
@@ -224,16 +228,17 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                 }
             }
         }
-        chessmap[x][y] = Chess.ChessColor.NONE; //回溯
+        chessmap[x][y] = Chess.ChessColor.NONE; //回溯，棋子并没有下
         return true;
     }
 
-    //估值函数，对当前局面进行评估，计算颜色为color的一方比另一方可落子的位置数目多多少（权利值比较）
+    //估值函数，对当前棋面进行评估，计算颜色为color的一方比另一方可落子的位置数目多多少（权值比较）
     public int evaluate(int color) {
         int right = 0;
         int op_color = opponent_color(color);
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
+                //遍历整个棋盘
                 if (put_available(x, y, color))
                     right++;
                 if (put_available(x, y, op_color))
@@ -251,28 +256,38 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             color = 1;
         else
             color = -1;
-        if (whoPlay == 0) {
-            int max_value = Integer.MIN_VALUE;
+        //电脑先手就是1(黑色棋子)，否则就是-1(白色棋子)
+
+        if (whoPlay == 0) {//只有操作权回归到电脑才触发以下贪婪操作
+            int max_value = Integer.MIN_VALUE;//set to min
             int[] best_i = new int[81];
             int[] best_j = new int[81];
             int best_num = 0;
+            //init
+
             for (int i = 0; i < road; i++)//reset value array
             {
                 for (int j = 0; j < road; j++) {
                     value[i][j] = 0;
                 }
             }
+
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
+                    //遍历棋盘
+                    //颜色在上面已声明，且传入greedyClicked函数
                     if (put_available(i, j, color)) {
+                        //能放棋子
                         if (color == 1) {
-                            chessmap[i][j] = Chess.ChessColor.BLACK;
-                            value[i][j] = evaluate(color);
-                            if (value[i][j] > max_value)
+                            //黑子
+                            chessmap[i][j] = Chess.ChessColor.BLACK;//先放个子
+                            value[i][j] = evaluate(color);//判断本色棋子的局势
+                            if (value[i][j] > max_value)//有优势则存，否则不存
                                 max_value = value[i][j];
-                            chessmap[i][j] = Chess.ChessColor.NONE;
+                            chessmap[i][j] = Chess.ChessColor.NONE;//回溯
                         }
                         else {
+                            //白子
                             chessmap[i][j] = Chess.ChessColor.WHITE;
                             value[i][j] = evaluate(color);
                             if (value[i][j] > max_value)
@@ -281,20 +296,26 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                         }
                     }
                     else
+                        //不能放棋子
                         value[i][j] = Integer.MIN_VALUE;
                 }
             }
+
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     if (value[i][j] == max_value) {
+                        //上面求得的所有权值存入best坐标数组
                         best_i[best_num] = i;
                         best_j[best_num] = j;
                         best_num++;
                     }
-            int randomNum = rdm.nextInt(best_num);//在所有最大value里面随机选
+            int randomNum = rdm.nextInt(best_num);//在所有最大value里面随机选一个坐标
             coordinate_x = best_i[randomNum];
             coordinate_y = best_j[randomNum];
-            //get click position & use virtual clicked
+            //get click position
+            //ai done work
+
+            //start virtual clicked
             // 得到的是落子类绘图方法需要的坐标
             int place_x = (coordinate_x + 1) * roadWidth + chessR;
             int place_y = (coordinate_y + 1) * roadWidth + chessR;
