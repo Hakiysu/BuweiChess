@@ -20,7 +20,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
      * 声明highLight高亮最后一手
      * 声明9*9 chessmap数组，存储已落子的信息，road=路宽度，9
      * 声明teNum记录手数
-     * 声明move_teNum 记录每一个坐标的棋子是第几手棋
+     * 声明class_teNum 记录每一个坐标的棋子是第几手棋
      * 声明上一手的坐标last_coordinate_x，last_coordinate_y
      */
     Player BLACK_PLAYER;
@@ -180,6 +180,23 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         return flag;
     }
 
+    public int getV(int x, int y) {
+        visited_by_air_judge[x][y] = true; //标记，表示这个位置已经搜过有无气了
+        int air=0;
+        boolean flag = false;
+        for (int dir = 0; dir < 4; dir++) {
+            int x_dx = x + dx[dir], y_dy = y + dy[dir];
+            if (inBoard_judge(x_dx, y_dy)) //界内
+            {
+                if (chessmap[x_dx][y_dy] == Chess.ChessColor.NONE) //旁边这个位置没有棋子
+                    air+=2;
+                if (chessmap[x_dx][y_dy] == chessmap[x][y] && !visited_by_air_judge[x_dx][y_dy]) //旁边这个位置是没被搜索过的同色棋
+                    if (air_judge(x_dx, y_dy))
+                        air++;
+            }
+        }
+        return air;
+    }
     //判断能否下颜色为color的棋
     //color:0 white/1 black
     public boolean put_available(int x, int y, int color) {
@@ -231,17 +248,25 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
         return true;
     }
 
-    //估值函数，对当前棋面进行评估，计算颜色为color的一方比另一方可落子的位置数目多多少（权值比较）
-    public int evaluate(int color) {
+    //估值函数，对当前棋面进行评估，
+    // 计算颜色为color的一方比另一方可落子的位置数目多 多少（权值比较）
+    //某个位置的气数可影响权值大小
+    public int evaluate(int colorN) {
         int right = 0;
-        int op_color = opponent_color(color);
+        int op_color = opponent_color(colorN);
+        Chess.ChessColor color;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 //遍历整个棋盘
-                if (put_available(x, y, color))
-                    right++;
-                if (put_available(x, y, op_color))
-                    right--;
+                if (put_available(x, y, colorN))//this color
+                {
+                    right+=getV(x,y);
+                }
+                if (put_available(x, y, op_color))//this color
+                {
+                    right=right-(int)getV(x,y)/2;
+                }
+
             }
         }
         return right;
@@ -281,7 +306,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                             //黑子
                             chessmap[i][j] = Chess.ChessColor.BLACK;//先放个子
                             value[i][j] = evaluate(color);//判断本色棋子的局势
-                            if (value[i][j] > max_value)//有优势则存，否则不存
+                            if (value[i][j] > max_value-3)//有优势则存，否则不存
                                 max_value = value[i][j];
                             chessmap[i][j] = Chess.ChessColor.NONE;//回溯
                         }
@@ -289,7 +314,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                             //白子
                             chessmap[i][j] = Chess.ChessColor.WHITE;
                             value[i][j] = evaluate(color);
-                            if (value[i][j] > max_value)
+                            if (value[i][j] > max_value-3)
                                 max_value = value[i][j];
                             chessmap[i][j] = Chess.ChessColor.NONE;
                         }
@@ -302,12 +327,13 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
-                    if (value[i][j] == max_value) {
+                    if (value[i][j] >= max_value) {
                         //上面求得的所有权值存入best坐标数组
                         best_i[best_num] = i;
                         best_j[best_num] = j;
                         best_num++;
                     }
+            System.out.println(best_num);
             int randomNum = rdm.nextInt(best_num);//在所有最大value里面随机选一个坐标
             coordinate_x = best_i[randomNum];
             coordinate_y = best_j[randomNum];

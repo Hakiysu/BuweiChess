@@ -44,7 +44,6 @@ public class Take {
         Chess.ChessColor color = move[coordinate_x][coordinate_y];
 
         //对弈禁止自杀，落子自杀一方判负
-        System.out.println("NAV check start");
         int noAirValue=4;
         //center area,1.1~7.7
         if(coordinate_x<8&&coordinate_x>0&&coordinate_y<8&&coordinate_y>0)
@@ -124,7 +123,6 @@ public class Take {
             if(color!=move[coordinate_x][coordinate_y-1]&&move[coordinate_x][coordinate_y-1]!= Chess.ChessColor.NONE)noAirValue--;
         }
         if(noAirValue==0)flag=1;
-        System.out.println("NAV check done,nva="+noAirValue);
 
         if(flag==1)
         {
@@ -150,7 +148,6 @@ public class Take {
                 // 且棋子颜色与当前局面最后一手棋颜色不同
                 else if(move[direction_x][direction_y] != color && move[direction_x][direction_y] != Chess.ChessColor.NONE)
                 {
-                    //System.out.println("different-"+i);
                     // 如果该棋子所在的块有气，继续下一个循环
                     if(ChessAir.hasLiberty(move,direction_x,direction_y))
                     {
