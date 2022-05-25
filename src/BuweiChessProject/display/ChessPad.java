@@ -182,19 +182,19 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
 
     public int getV(int x, int y) {
         visited_by_air_judge[x][y] = true; //标记，表示这个位置已经搜过有无气了
-        int air=0;
-        boolean flag = false;
+        int air=1;
         for (int dir = 0; dir < 4; dir++) {
             int x_dx = x + dx[dir], y_dy = y + dy[dir];
             if (inBoard_judge(x_dx, y_dy)) //界内
             {
                 if (chessmap[x_dx][y_dy] == Chess.ChessColor.NONE) //旁边这个位置没有棋子
-                    air+=2;
+                    air += 2;
                 if (chessmap[x_dx][y_dy] == chessmap[x][y] && !visited_by_air_judge[x_dx][y_dy]) //旁边这个位置是没被搜索过的同色棋
                     if (air_judge(x_dx, y_dy))
                         air++;
+                if(chessmap[x_dx][y_dy] !=chessmap[x][y])air--;
             }
-        }
+            }
         return air;
     }
     //判断能否下颜色为color的棋
@@ -286,16 +286,9 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
             int max_value = Integer.MIN_VALUE;//set to min
             int[] best_i = new int[81];
             int[] best_j = new int[81];
+            int value[][] = new int[9][9];
             int best_num = 0;
             //init
-
-            for (int i = 0; i < road; i++)//reset value array
-            {
-                for (int j = 0; j < road; j++) {
-                    value[i][j] = 0;
-                }
-            }
-
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     //遍历棋盘
@@ -305,26 +298,25 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                         if (color == 1) {
                             //黑子
                             chessmap[i][j] = Chess.ChessColor.BLACK;//先放个子
-                            value[i][j] = evaluate(color);//判断本色棋子的局势
-                            if (value[i][j] > max_value-3)//有优势则存，否则不存
+                            value[i][j] = getV(i, j);//判断本色棋子的局势
+                            if (value[i][j] > max_value)//有优势则存，否则不存
                                 max_value = value[i][j];
                             chessmap[i][j] = Chess.ChessColor.NONE;//回溯
-                        }
-                        else {
+                        } else {
                             //白子
                             chessmap[i][j] = Chess.ChessColor.WHITE;
-                            value[i][j] = evaluate(color);
-                            if (value[i][j] > max_value-3)
+
+                            value[i][j] = getV(i, j);//判断本色棋子的局势
+                            if (value[i][j] > max_value)
                                 max_value = value[i][j];
                             chessmap[i][j] = Chess.ChessColor.NONE;
                         }
-                    }
-                    else
+                    } else {
                         //不能放棋子
                         value[i][j] = Integer.MIN_VALUE;
+                    }
                 }
             }
-
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     if (value[i][j] >= max_value) {
@@ -333,7 +325,21 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                         best_j[best_num] = j;
                         best_num++;
                     }
-            System.out.println(best_num);
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    System.out.print(value[j][i]+"   ");
+                }
+                System.out.println();
+            }
+
+            for (int i = 0; i < best_num; i++)
+            {
+             System.out.println("["+best_i[i]+","+best_j[i]+"]");
+            }
+
             int randomNum = rdm.nextInt(best_num);//在所有最大value里面随机选一个坐标
             coordinate_x = best_i[randomNum];
             coordinate_y = best_j[randomNum];
@@ -381,6 +387,7 @@ public class ChessPad extends Panel implements MouseListener, ActionListener {
                     flower.func();
                 } else {
                     System.out.println("AI落子");
+
                 }
 
                 // 高亮最后一手，并将倒数第二手的高亮去除
